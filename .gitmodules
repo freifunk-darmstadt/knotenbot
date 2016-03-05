@@ -1,0 +1,3 @@
+[submodule "sopel"]
+	path = sopel
+	url = https://github.com/sopel-irc/sopel.git
