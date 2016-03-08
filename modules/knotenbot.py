@@ -37,7 +37,7 @@ def new_node(bot, node, info):
         addr = 'N/A'
     else:
         addr = addr[-1]
-    bot.msg('#ffda-log', '{} is new. - http://[{}]'.format(node, addr))
+    bot.msg('#ffda-log', '{} is {}. - http://[{}]'.format(node, color('NEW', colors.BLUE), addr))
 
 
 ONLINE = color('ONLINE', colors.GREEN)
