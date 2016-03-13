@@ -2,7 +2,7 @@
 import sopel
 import requests
 from sopel.config.types import StaticSection, ValidatedAttribute, ListAttribute
-from sopel.formatting import color, colors
+from sopel.formatting import bold, color, colors
 knoten_url = 'https://map.darmstadt.freifunk.net/data/nodes.json'
 
 
@@ -37,11 +37,11 @@ def new_node(bot, node, info):
         addr = 'N/A'
     else:
         addr = addr[-1]
-    bot.msg('#ffda-log', '{} is {}. - http://[{}]'.format(node, color('NEW', colors.BLUE), addr))
+    bot.msg('#ffda-log', '{} is {}. - http://[{}]'.format(node, bold(color('new', colors.BLUE)), addr))
 
 
-ONLINE = color('ONLINE', colors.GREEN)
-OFFLINE = color('OFFLINE', colors.RED)
+ONLINE = bold(color('online', colors.GREEN))
+OFFLINE = bold(color('offline', colors.RED))
 
 def status_changed(bot, node, info):
     status = {True: ONLINE, False: OFFLINE}[info['flags']['online']]
