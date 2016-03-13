@@ -40,7 +40,7 @@ def new_node(bot, node, info):
     try:
         version = info['software']['firmware']['release']
     except KeyError:
-        version = 'N/A
+        version = 'N/A'
     bot.msg('#ffda-log', '{} is {}. - {} - http://[{}]'.format(node, bold(color('new', colors.BLUE)), version, addr))
 
 
@@ -57,7 +57,7 @@ def status_changed(bot, node, info):
     try:
         version = info['software']['firmware']['release']
     except KeyError:
-        version = 'N/A
+        version = 'N/A'
     bot.msg('#ffda-log', '{} is now {}. - {} - http://[{}]'.format(node, status, version, addr))
 
 
