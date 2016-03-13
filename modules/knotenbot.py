@@ -31,9 +31,6 @@ def setup(bot):
         bot.memory['knoten'] = {}
 
 
-def format_nodename(name):
-    return "{pre}{name}{post}".format(
-
 def new_node(bot, node, info):
     addr = info['network'].get('addresses', None)
     if not addr:
