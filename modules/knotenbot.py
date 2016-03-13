@@ -31,13 +31,20 @@ def setup(bot):
         bot.memory['knoten'] = {}
 
 
+def format_nodename(name):
+    return "{pre}{name}{post}".format(
+
 def new_node(bot, node, info):
     addr = info['network'].get('addresses', None)
     if not addr:
         addr = 'N/A'
     else:
         addr = addr[-1]
-    bot.msg('#ffda-log', '{} is {}. - http://[{}]'.format(node, bold(color('new', colors.BLUE)), addr))
+    try:
+        version = info['software']['firmware']['release']
+    except KeyError:
+        version = 'N/A
+    bot.msg('#ffda-log', '{} is {}. - {} - http://[{}]'.format(node, bold(color('new', colors.BLUE)), version, addr))
 
 
 ONLINE = bold(color('online', colors.GREEN))
@@ -49,8 +56,12 @@ def status_changed(bot, node, info):
     if not addr:
         addr = 'N/A'
     else:
-        addr = addr[-1]
-    bot.msg('#ffda-log', '{} is now {}. - http://[{}]'.format(node, status, addr))
+        addr = sorted(addr)[0]
+    try:
+        version = info['software']['firmware']['release']
+    except KeyError:
+        version = 'N/A
+    bot.msg('#ffda-log', '{} is now {}. - {} - http://[{}]'.format(node, status, version, addr))
 
 
 def diff_status(data, old_data):
