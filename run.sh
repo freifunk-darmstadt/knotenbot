@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 git submodule init
 git submodule update
 test -d env || pyvenv env
