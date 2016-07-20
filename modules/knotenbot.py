@@ -21,7 +21,7 @@ def get_data(bot):
 
 def preprocess_data(nodes):
     return dict((v['nodeinfo']['hostname'], dict(flags=v['flags'], network=v['nodeinfo']['network'], software=v['nodeinfo']['software']))
-                for v in nodes.values())
+                for v in nodes)
 
 
 def setup(bot):
