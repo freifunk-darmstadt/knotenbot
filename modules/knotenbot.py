@@ -92,6 +92,6 @@ def update_data(bot):
         status_changed(bot, node, info)
 
     if len(changed) > 10:
-        bot.msg('#ffda-log', ' ... and {} moaddressesre'.format(len(changed) - 10))
+        bot.msg('#ffda-log', ' ... and {} more addresses'.format(len(changed) - 10))
 
     bot.memory['knoten'] = data
