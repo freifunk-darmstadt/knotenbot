@@ -93,13 +93,17 @@ def find_node(bot, nodename):
 
 def format_time(time):
     time_difference = datetime.now() - time
-    minutes = time_difference.total_seconds() / 60
-    if minutes / 60 < 1:
-        return "{} minutes".format(int(round(minutes)))
-    if minutes / (60*24) < 1:
-        return "{} hours".format(int(round(minutes/(60))))
+    total_minutes = time_difference.total_seconds() / 60
+    days = total_minutes / (60*24)
+    hours = (total_minutes - int(days)*60*24) / 60
+    minutes = total_minutes - int(days)*60*24 - int(hours)*60
+
+    if days >= 1:
+        return "{}d {}h {}m".format(int(days), int(hours), int(minutes))
+    elif hours >= 1:
+        return "{}h {}m".format(int(hours), int(minutes))
     else:
-        return "{} days".format(int(round(minutes / (60*24))))
+        return "{}m".format(int(minutes))
 
 def color_percentage(val):
     if val >= 90:
