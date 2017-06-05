@@ -132,8 +132,8 @@ def update_data(bot):
 
     bot.memory['knoten'] = data
 
-@sopel.module.commands('status')
-def status(bot, trigger):
+@sopel.module.commands('nodeinfo')
+def nodeinfo(bot, trigger):
     search_queries = [n for n in trigger.args[1].split(' ')[1:] if len(n) > 0]
     if len(search_queries) is 0:
         bot.msg(trigger.sender, "Usage: .nodeinfo [nodename]")
