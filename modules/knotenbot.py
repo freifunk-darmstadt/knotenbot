@@ -22,7 +22,7 @@ def get_data(bot):
 
 
 def preprocess_data(nodes):
-    return dict((v['nodeinfo']['hostname'], dict(flags=v['flags'], network=v['nodeinfo']['network'],
+    return dict((v['nodeinfo']['node_id'], dict(flags=v['flags'], network=v['nodeinfo']['network'],
                                                  software=v['nodeinfo']['software'], statistics=v['statistics'],
                                                  lastseen=v['lastseen'], hostname=v['nodeinfo']['hostname'],
                                                  model=v['nodeinfo'].get('hardware', {}).get('model', 'N/A')))
@@ -46,7 +46,7 @@ def new_node(bot, node, info):
         version = info['software']['firmware']['release']
     except KeyError:
         version = 'N/A'
-    bot.msg('#ffda-log', '{} is {}. - {} - http://[{}]'.format(node, bold(color('new', colors.BLUE)), version, addr))
+    bot.msg('#ffda-log', '{} is {}. - {} - http://[{}]'.format(info['hostname'], bold(color('new', colors.BLUE)), version, addr))
 
 
 ONLINE = bold(color('online', colors.GREEN))
@@ -63,7 +63,7 @@ def status_changed(bot, node, info):
         version = info['software']['firmware']['release']
     except KeyError:
         version = 'N/A'
-    bot.msg('#ffda-log', '{} is now {}. - {} - http://[{}]'.format(node, status, version, addr))
+    bot.msg('#ffda-log', '{} is now {}. - {} - http://[{}]'.format(info['hostname'], status, version, addr))
 
 
 def diff_status(data, old_data):
@@ -89,7 +89,8 @@ def find_node(bot, nodename):
         if len(nodes) is 1:
             return nodes
 
-    return [bot.memory['knoten'][node] for node in bot.memory['knoten'] if nodename.lower() in node.lower()]
+    return [bot.memory['knoten'][node] for node in bot.memory['knoten']
+            if nodename.lower() in bot.memory['knoten'][node]['hostname'].lower()]
 
 def format_time(time):
     time_difference = datetime.now() - time
