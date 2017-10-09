@@ -5,7 +5,7 @@ import requests
 from datetime import datetime, timedelta
 from sopel.config.types import StaticSection, ValidatedAttribute, ListAttribute
 from sopel.formatting import bold, color, colors
-knoten_url = 'https://map.darmstadt.freifunk.net/data/nodes.json'
+knoten_url = 'https://meshviewer.darmstadt.freifunk.net/data/ffda/nodes.json'
 
 
 class KnotenbotSection(StaticSection):
@@ -93,7 +93,7 @@ def find_node(bot, nodename):
             if nodename.lower() in bot.memory['knoten'][node]['hostname'].lower()]
 
 def format_time(time):
-    time_difference = datetime.now() - time
+    time_difference = datetime.now() - time.replace(tzinfo=None)
     total_minutes = time_difference.total_seconds() / 60
     days = total_minutes / (60*24)
     hours = (total_minutes - int(days)*60*24) / 60
@@ -148,7 +148,7 @@ def nodeinfo(bot, trigger):
         elif len(possible_nodes) is 1:
             node = possible_nodes[0]
             online = node['flags']['online']
-            time = datetime.strptime(node['lastseen'], '%Y-%m-%dT%H:%M:%S.%fZ')
+            time = datetime.strptime(node['lastseen'], '%Y-%m-%dT%H:%M:%S%z')
             nodename = bold(color(node['hostname'], colors.RED))
             if online:
                 nodename = bold(color(node['hostname'], colors.GREEN))
