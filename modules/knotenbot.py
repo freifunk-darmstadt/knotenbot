@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 import re
+
+import pytz
 import sopel
 import requests
 from datetime import datetime, timedelta
@@ -93,7 +95,7 @@ def find_node(bot, nodename):
             if nodename.lower() in bot.memory['knoten'][node]['hostname'].lower()]
 
 def format_time(time):
-    time_difference = datetime.now() - time.replace(tzinfo=None)
+    time_difference = datetime.now(tz=pytz.UTC) - time
     total_minutes = time_difference.total_seconds() / 60
     days = total_minutes / (60*24)
     hours = (total_minutes - int(days)*60*24) / 60
@@ -152,7 +154,9 @@ def nodeinfo(bot, trigger):
             nodename = bold(color(node['hostname'], colors.RED))
             if online:
                 nodename = bold(color(node['hostname'], colors.GREEN))
+                timezone = time.tzinfo
                 time = datetime.now() - timedelta(seconds=node['statistics']['uptime'])
+                time = time.replace(tzinfo=timezone)
 
             addr = node['network'].get('addresses', None)
             if not addr:
